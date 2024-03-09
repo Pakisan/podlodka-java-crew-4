@@ -1,7 +1,7 @@
 package com.github.pakisan.podlodkajavacrew4;
 
-import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessageConsumer;
 import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage;
+import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessageConsumer;
 import io.github.springwolf.plugins.amqp.producer.SpringwolfAmqpProducer;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -21,7 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 
-import static com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.RabbitConfiguration.MESSAGES_TO_BROADCAST_QUEUE;
+import static com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.RabbitConfiguration.INCOMING_MESSAGES_QUEUE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
@@ -71,7 +71,7 @@ public class ProducerSystemTest {
         IncomingMessage payload = new IncomingMessage("broadcast this message \uD83D\uDE80");
 
         // when
-        springwolfAmqpProducer.send(MESSAGES_TO_BROADCAST_QUEUE, payload);
+        springwolfAmqpProducer.send(INCOMING_MESSAGES_QUEUE, payload);
 
         // then
         verify(incomingMessageConsumer, timeout(10000)).receiveIncomingMessage(payload);
