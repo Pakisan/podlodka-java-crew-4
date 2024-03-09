@@ -1,0 +1,27 @@
+# Spring configuration
+spring:
+  application:
+    name: Messages Broadcast API
+  rabbitmq:
+    host: amqp
+    port: 5672
+    username: guest
+    password: guest
+
+springwolf:
+  enabled: true
+  docket:
+    base-package: com.github.pakisan.podlodkajavacrew4
+    info:
+      title: ${spring.application.name}
+      version: 1.0.0
+      description: Provides information about available operations for messages broadcasting
+      terms-of-service: https://asyncapi.org/terms
+    servers:
+      amqp:
+        protocol: amqp
+        host: ${spring.rabbitmq.host}:${spring.rabbitmq.port}
+  plugin:
+    amqp:
+      publishing:
+        enabled: true
