@@ -20,7 +20,7 @@ public class SpringContextIntegrationTest {
                 "springwolf.enabled=true",
                 "springwolf.docket.info.title=Info title was loaded from spring properties",
                 "springwolf.docket.info.version=1.0.0",
-                "springwolf.docket.base-package=io.github.springwolf.examples",
+                "springwolf.docket.base-package=com.github.pakisan.podlodkajavacrew4",
                 "springwolf.docket.servers.test-protocol.protocol=amqp",
                 "springwolf.docket.servers.test-protocol.host=some-server:1234",
             })
@@ -41,7 +41,7 @@ public class SpringContextIntegrationTest {
 
         @Test
         void testAllChannelsAreFound() {
-            assertThat(asyncApiService.getAsyncAPI().getChannels()).hasSize(5);
+            assertThat(asyncApiService.getAsyncAPI().getChannels()).hasSize(2);
         }
     }
 

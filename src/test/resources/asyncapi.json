@@ -1,20 +1,12 @@
 {
   "asyncapi": "3.0.0",
   "info": {
-    "title": "Springwolf example project - AMQP",
+    "title": "Messages Broadcast API",
     "version": "1.0.0",
-    "description": "Springwolf example project to demonstrate springwolfs abilities",
-    "contact": {
-      "name": "springwolf",
-      "url": "https://github.com/springwolf/springwolf-core",
-      "email": "example@example.com",
-      "x-phone": "+49 123 456789"
-    },
+    "description": "Provides information about available operations for messages broadcasting",
     "license": {
-      "name": "Apache License 2.0",
-      "x-desc": "some description"
+      "name": "Apache License 2.0"
     },
-    "x-api-audience": "company-internal",
     "x-generator": "springwolf"
   },
   "defaultContentType": "application/json",
@@ -25,93 +17,17 @@
     }
   },
   "channels": {
-    "another-queue": {
+    "incoming-messages-queue": {
       "messages": {
-        "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
-        }
-      },
-      "bindings": {
-        "amqp": {
-          "is": "queue",
-          "queue": {
-            "name": "another-queue",
-            "durable": false,
-            "exclusive": false,
-            "autoDelete": false,
-            "vhost": "/"
-          },
-          "bindingVersion": "0.3.0"
+        "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage": {
+          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage"
         }
       }
     },
-    "example-producer-channel-publisher": {
+    "messages-to-broadcast-queue": {
       "messages": {
-        "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
-        }
-      }
-    },
-    "example-queue": {
-      "messages": {
-        "com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
-        }
-      },
-      "bindings": {
-        "amqp": {
-          "is": "queue",
-          "queue": {
-            "name": "example-queue",
-            "durable": false,
-            "exclusive": false,
-            "autoDelete": false,
-            "vhost": "/"
-          },
-          "bindingVersion": "0.3.0"
-        }
-      }
-    },
-    "example-topic-routing-key": {
-      "messages": {
-        "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
-        }
-      },
-      "bindings": {
-        "amqp": {
-          "is": "routingKey",
-          "exchange": {
-            "name": "example-bindings-exchange-name",
-            "type": "topic",
-            "durable": true,
-            "autoDelete": false,
-            "vhost": "/"
-          },
-          "bindingVersion": "0.3.0"
-        }
-      }
-    },
-    "multi-payload-queue": {
-      "messages": {
-        "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
-        },
-        "com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto": {
-          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
-        }
-      },
-      "bindings": {
-        "amqp": {
-          "is": "routingKey",
-          "exchange": {
-            "name": "example-topic-exchange",
-            "type": "topic",
-            "durable": true,
-            "autoDelete": false,
-            "vhost": "/"
-          },
-          "bindingVersion": "0.3.0"
+        "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast": {
+          "$ref": "#/components/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast"
         }
       }
     }
@@ -125,112 +41,92 @@
           { }
         ]
       },
-      "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
+      "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast": {
         "type": "object",
         "properties": {
-          "example": {
-            "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
-          },
-          "foo": {
+          "message": {
             "type": "string",
-            "description": "Foo field",
+            "description": "Ordinary text which will be send",
             "examples": [
-              "bar"
+              "broadcast this message 🚀"
+            ]
+          },
+          "receivedAt": {
+            "type": "string",
+            "description": "Date-time when application received this message",
+            "format": "date-time",
+            "examples": [
+              "2023-08-31T15:28:21.283Z"
             ]
           }
         },
-        "description": "Another payload model",
+        "description": "Broadcasting ready message",
         "examples": [
           {
-            "example": {
-              "someEnum": "FOO2",
-              "someLong": 5,
-              "someString": "some string value"
-            },
-            "foo": "bar"
+            "message": "broadcast this message 🚀",
+            "receivedAt": "2023-08-31T15:28:21.283Z"
           }
         ],
         "required": [
-          "example"
+          "message",
+          "receivedAt"
         ]
       },
-      "com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto": {
+      "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage": {
         "type": "object",
         "properties": {
-          "someEnum": {
+          "message": {
             "type": "string",
-            "description": "Some enum field",
-            "enum": [
-              "FOO1",
-              "FOO2",
-              "FOO3"
-            ],
+            "description": "Ordinary text which will be send",
             "examples": [
-              "FOO2"
-            ]
-          },
-          "someLong": {
-            "type": "integer",
-            "description": "Some long field",
-            "format": "int64",
-            "examples": [
-              5
-            ]
-          },
-          "someString": {
-            "type": "string",
-            "description": "Some string field",
-            "examples": [
-              "some string value"
+              "broadcast this message 🚀"
             ]
           }
         },
-        "description": "Example payload model",
+        "description": "Message received by application for further broadcasting",
         "examples": [
           {
-            "someEnum": "FOO2",
-            "someLong": 5,
-            "someString": "some string value"
+            "message": "broadcast this message 🚀"
           }
         ],
         "required": [
-          "someEnum",
-          "someString"
+          "message"
         ]
       }
     },
     "messages": {
-      "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto": {
+      "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast": {
         "headers": {
           "$ref": "#/components/schemas/HeadersNotDocumented"
         },
         "payload": {
           "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
           "schema": {
-            "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
+            "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast"
           }
         },
-        "name": "com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto",
-        "title": "AnotherPayloadDto",
-        "description": "Another payload model",
+        "name": "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast",
+        "title": "MessageToBroadcast",
+        "description": "Broadcasting ready message",
         "bindings": {
           "amqp": {
             "bindingVersion": "0.3.0"
           }
         }
       },
-      "com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto": {
+      "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage": {
         "headers": {
           "$ref": "#/components/schemas/HeadersNotDocumented"
         },
         "payload": {
           "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
           "schema": {
-            "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
+            "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage"
           }
         },
-        "name": "com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto",
-        "title": "ExamplePayloadDto",
+        "name": "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage",
+        "title": "IncomingMessage",
+        "description": "Message received by application for further broadcasting",
         "bindings": {
           "amqp": {
             "bindingVersion": "0.3.0"
@@ -240,33 +136,33 @@
     }
   },
   "operations": {
-    "another-queue_receive_receiveAnotherPayload": {
+    "incoming-messages-queue_receive_receiveIncomingMessage": {
       "action": "receive",
       "channel": {
-        "$ref": "#/channels/another-queue"
+        "$ref": "#/channels/incoming-messages-queue"
       },
       "bindings": {
         "amqp": {
           "expiration": 0,
           "cc": [
-            "another-queue"
+            "messages-to-broadcast-routing-key"
           ],
           "bindingVersion": "0.3.0"
         }
       },
       "messages": [
         {
-          "$ref": "#/channels/another-queue/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
+          "$ref": "#/channels/incoming-messages-queue/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage"
         }
       ]
     },
-    "example-producer-channel-publisher_send_sendMessage": {
+    "incoming-messages-queue_send_sendMessage": {
       "action": "send",
       "channel": {
-        "$ref": "#/channels/example-producer-channel-publisher"
+        "$ref": "#/channels/incoming-messages-queue"
       },
-      "title": "example-producer-channel-publisher_send",
-      "description": "Custom, optional description defined in the AsyncPublisher annotation",
+      "title": "incoming-messages-queue_send",
+      "description": "Publish message to broadcast",
       "bindings": {
         "amqp": {
           "expiration": 0,
@@ -281,70 +177,52 @@
       },
       "messages": [
         {
-          "$ref": "#/channels/example-producer-channel-publisher/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
+          "$ref": "#/channels/incoming-messages-queue/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage"
         }
       ]
     },
-    "example-queue_receive_receiveExamplePayload": {
+    "messages-to-broadcast-queue_receive_receiveIncomingMessage": {
       "action": "receive",
       "channel": {
-        "$ref": "#/channels/example-queue"
+        "$ref": "#/channels/messages-to-broadcast-queue"
       },
       "bindings": {
         "amqp": {
           "expiration": 0,
           "cc": [
-            "example-queue"
+            "messages-to-broadcast-routing-key"
           ],
           "bindingVersion": "0.3.0"
         }
       },
       "messages": [
         {
-          "$ref": "#/channels/example-queue/messages/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
+          "$ref": "#/channels/messages-to-broadcast-queue/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast"
         }
       ]
     },
-    "example-topic-routing-key_receive_bindingsExample": {
-      "action": "receive",
+    "messages-to-broadcast-queue_send_sendMessage": {
+      "action": "send",
       "channel": {
-        "$ref": "#/channels/example-topic-routing-key"
+        "$ref": "#/channels/messages-to-broadcast-queue"
       },
+      "title": "messages-to-broadcast-queue_send",
+      "description": "Publish broadcasting ready message",
       "bindings": {
         "amqp": {
           "expiration": 0,
-          "cc": [
-            "example-topic-routing-key"
-          ],
+          "cc": [ ],
+          "priority": 0,
+          "deliveryMode": 1,
+          "mandatory": false,
+          "timestamp": false,
+          "ack": false,
           "bindingVersion": "0.3.0"
         }
       },
       "messages": [
         {
-          "$ref": "#/channels/example-topic-routing-key/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
-        }
-      ]
-    },
-    "multi-payload-queue_receive_bindingsBeanExample": {
-      "action": "receive",
-      "channel": {
-        "$ref": "#/channels/multi-payload-queue"
-      },
-      "bindings": {
-        "amqp": {
-          "expiration": 0,
-          "cc": [
-            "example-topic-routing-key"
-          ],
-          "bindingVersion": "0.3.0"
-        }
-      },
-      "messages": [
-        {
-          "$ref": "#/channels/multi-payload-queue/messages/com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto"
-        },
-        {
-          "$ref": "#/channels/multi-payload-queue/messages/com.github.pakisan.podlodkajavacrew4.dtos.AnotherPayloadDto"
+          "$ref": "#/channels/messages-to-broadcast-queue/messages/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast"
         }
       ]
     }

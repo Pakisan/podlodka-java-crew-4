@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * While the assertion of this test is identical to ApiIntegrationTests,
- * the setup uses a full docker-compose context with a real kafka instance.
+ * the setup uses a full docker-compose context with a real RabbitMQ instance.
  */
 @Slf4j
 @Testcontainers

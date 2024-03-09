@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.github.pakisan"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -20,21 +20,24 @@ repositories {
 }
 
 dependencies {
+
+    // Spring Wolf
     implementation("io.github.springwolf:springwolf-core:1.0.0")
     annotationProcessor("io.github.springwolf:springwolf-amqp:1.0.0")
     implementation("io.github.springwolf:springwolf-amqp:1.0.0")
     implementation("io.github.springwolf:springwolf-ui:1.0.0")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
 
+    // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
-    implementation("org.springframework:spring-context")
-    implementation("org.springframework.boot:spring-boot")
+//    implementation("org.springframework:spring-context")
+//    implementation("org.springframework.boot:spring-boot")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework:spring-beans")
-    testImplementation("org.springframework:spring-web")
-    testImplementation("org.springframework:spring-test")
+//    testImplementation("org.springframework:spring-beans")
+//    testImplementation("org.springframework:spring-web")
+//    testImplementation("org.springframework:spring-test")
     testImplementation("org.springframework.amqp:spring-rabbit-test")
 
     annotationProcessor("org.projectlombok:lombok:1.18.30")
@@ -64,5 +67,5 @@ docker {
 tasks.withType<Test> {
     useJUnitPlatform()
 
-//    dependsOn dockerBuildImage
+    dependsOn(tasks.withType<DockerBuildImage>())
 }

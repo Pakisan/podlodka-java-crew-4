@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: Apache-2.0
 package com.github.pakisan.podlodkajavacrew4;
 
-import com.github.pakisan.podlodkajavacrew4.consumers.ExampleConsumer;
-import com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto;
+import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessageConsumer;
+import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage;
 import io.github.springwolf.plugins.amqp.producer.SpringwolfAmqpProducer;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -22,7 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.File;
 
-import static com.github.pakisan.podlodkajavacrew4.dtos.ExamplePayloadDto.ExampleEnum.FOO1;
+import static com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.RabbitConfiguration.MESSAGES_TO_BROADCAST_QUEUE;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
@@ -35,7 +34,8 @@ import static org.mockito.Mockito.verify;
  */
 @SpringBootTest(
         classes = {PodlodkaJavaCrew4Application.class},
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
 @Testcontainers
 @DirtiesContext
 @TestMethodOrder(OrderAnnotation.class)
@@ -47,11 +47,12 @@ public class ProducerSystemTest {
     SpringwolfAmqpProducer springwolfAmqpProducer;
 
     @SpyBean
-    ExampleConsumer exampleConsumer;
+    IncomingMessageConsumer incomingMessageConsumer;
 
     @Container
     public static DockerComposeContainer<?> environment =
-            new DockerComposeContainer<>(new File("docker-compose.yml")).withServices("amqp");
+            new DockerComposeContainer<>(new File("docker-compose.yml"))
+                    .withServices("amqp");
 
     @Test
     @Order(1)
@@ -67,16 +68,13 @@ public class ProducerSystemTest {
     @Order(2)
     void producerCanUseSpringwolfConfigurationToSendMessage() {
         // given
-        ExamplePayloadDto payload = new ExamplePayloadDto();
-        payload.setSomeString("foo");
-        payload.setSomeLong(5);
-        payload.setSomeEnum(FOO1);
+        IncomingMessage payload = new IncomingMessage("broadcast this message \uD83D\uDE80");
 
         // when
-        springwolfAmqpProducer.send("example-queue", payload);
+        springwolfAmqpProducer.send(MESSAGES_TO_BROADCAST_QUEUE, payload);
 
         // then
-        verify(exampleConsumer, timeout(10000)).receiveExamplePayload(payload);
+        verify(incomingMessageConsumer, timeout(10000)).receiveIncomingMessage(payload);
     }
 
 }
