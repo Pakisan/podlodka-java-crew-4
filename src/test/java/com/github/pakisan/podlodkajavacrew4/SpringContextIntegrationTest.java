@@ -41,7 +41,7 @@ public class SpringContextIntegrationTest {
 
         @Test
         void testAllChannelsAreFound() {
-            assertThat(asyncApiService.getAsyncAPI().getChannels()).hasSize(2);
+            assertThat(asyncApiService.getAsyncAPI().getChannels()).hasSize(3);
         }
     }
 

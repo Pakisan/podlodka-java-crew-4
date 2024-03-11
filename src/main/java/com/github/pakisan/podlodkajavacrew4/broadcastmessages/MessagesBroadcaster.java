@@ -30,22 +30,15 @@ public class MessagesBroadcaster {
                 Date.from(Instant.now())
         );
 
-        log.info("Sending message to broadcast: {}", messageToBroadcast);
-        broadcast(messageToBroadcast);
+        log.info("Sending message to broadcasting queue: {}", messageToBroadcast);
         messageToBroadcastProducer.sendMessage(messageToBroadcast);
-    }
-
-    public void sendMessage(MessageToBroadcast payload) {
-        log.info("Sending message to broadcast: {}", payload);
-        broadcast(payload);
-        messageToBroadcastProducer.sendMessage(payload);
     }
 
     public void subscribe(SseEmitter subscriber) {
         subscribers.add(subscriber);
     }
 
-    private void broadcast(MessageToBroadcast messageToBroadcast) {
+    public void broadcast(MessageToBroadcast messageToBroadcast) {
         log.info("Broadcasting message to next number of subscribers: {}", subscribers.size());
         subscribers.forEach(subscriber -> {
             try {

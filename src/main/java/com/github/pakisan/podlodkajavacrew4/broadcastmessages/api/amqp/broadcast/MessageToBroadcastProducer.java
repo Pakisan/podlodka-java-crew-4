@@ -1,6 +1,5 @@
 package com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast;
 
-import com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage;
 import io.github.springwolf.core.asyncapi.annotations.AsyncOperation;
 import io.github.springwolf.core.asyncapi.annotations.AsyncPublisher;
 import io.github.springwolf.plugins.amqp.asyncapi.annotations.AmqpAsyncOperationBinding;
@@ -27,7 +26,7 @@ public class MessageToBroadcastProducer {
     @AmqpAsyncOperationBinding()
     public void sendMessage(MessageToBroadcast message) {
         log.info("Sending message to broadcast: {}", message.toString());
-        rabbitTemplate.convertAndSend(MESSAGES_TO_BROADCAST_QUEUE, MESSAGES_TO_BROADCAST_ROUTING_KEY, message);
+        rabbitTemplate.convertAndSend(MESSAGES_TO_BROADCAST_EXCHANGE, MESSAGES_TO_BROADCAST_ROUTING_KEY, message);
     }
 
 }

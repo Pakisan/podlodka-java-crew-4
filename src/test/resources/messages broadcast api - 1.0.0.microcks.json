@@ -125,6 +125,12 @@
             "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast"
           }
         },
+        "examples": [
+          {
+            "message": "{{randomString(64)}}",
+            "receivedAt": "2023-08-31T15:28:21.283+00:00"
+          }
+        ],
         "name": "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.broadcast.MessageToBroadcast",
         "title": "MessageToBroadcast",
         "description": "Broadcasting ready message",
@@ -144,6 +150,11 @@
             "$ref": "#/components/schemas/com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage"
           }
         },
+        "examples": [
+          {
+            "message": "{{randomString(64)}}"
+          }
+        ],
         "name": "com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.amqp.incoming.IncomingMessage",
         "title": "IncomingMessage",
         "description": "Message received by application for further broadcasting",
