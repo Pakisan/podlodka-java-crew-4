@@ -28,6 +28,10 @@ dependencies {
     implementation("io.github.springwolf:springwolf-ui:1.0.0")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
 
+    // Spring Doc
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.3.0")
+
     // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-web")

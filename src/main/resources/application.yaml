@@ -8,6 +8,14 @@ spring:
     username: guest
     password: guest
 
+springdoc:
+  api-docs:
+    enabled: true
+    resolve-schema-properties: true
+    version: openapi_3_0
+  packages-to-scan: com.github.pakisan.podlodkajavacrew4
+  packages-to-exclude: com.github.pakisan.podlodkajavacrew4.broadcastmessages.api.sse
+
 springwolf:
   enabled: true
   docket:

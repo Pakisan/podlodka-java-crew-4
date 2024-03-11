@@ -26,5 +26,6 @@ docker compose up
 
 Exposed resources:
 - SpringWolf UI will be available on http://localhost:8080/springwolf/asyncapi-ui.html
+- SpringDoc UI will be available on http://localhost:8080/swagger-ui/index.html
 - Composed AsyncAPI specification will be available on http://localhost:8080/springwolf/docs
 - RabbitMQ's management will be available on http://localhost:15672 with next credentials `guest:guest`
