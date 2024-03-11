@@ -36,6 +36,7 @@ public class MessagesBroadcaster {
 
     public void subscribe(SseEmitter subscriber) {
         subscribers.add(subscriber);
+        log.info("New subscription");
     }
 
     public void broadcast(MessageToBroadcast messageToBroadcast) {

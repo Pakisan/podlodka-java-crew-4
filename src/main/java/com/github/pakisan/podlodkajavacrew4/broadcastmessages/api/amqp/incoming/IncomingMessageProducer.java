@@ -25,7 +25,7 @@ public class IncomingMessageProducer {
     )
     @AmqpAsyncOperationBinding()
     public void sendMessage(IncomingMessage message) {
-        log.info("Publish message to broadcast: {}", message);
+        log.info("Publish message for broadcast: {}", message);
         rabbitTemplate.convertAndSend(INCOMING_MESSAGES_EXCHANGE, INCOMING_MESSAGES_ROUTING_KEY, message);
     }
 
