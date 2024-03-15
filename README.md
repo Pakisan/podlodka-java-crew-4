@@ -2,6 +2,12 @@
 
 Demo application for presentation - AsyncAPI for event driven applications
 
+> Allows to ones users send messages to broadcast, and to others subscribe to broadcasting and receive messages
+
+<p float="middle">
+  <img src="assets/components.png" width="50%" alt="welcome screen"/>
+</p>
+
 ### Build
 
 #### Prerequisites
